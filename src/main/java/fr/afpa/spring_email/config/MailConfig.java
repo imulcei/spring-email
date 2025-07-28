@@ -6,6 +6,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.util.Properties;
 
 @Configuration
@@ -13,12 +15,13 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
+        Dotenv dotenv = Dotenv.load();
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("live.smtp.mailtrap.io");
+        mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("smtp@mailtrap.io");
-        mailSender.setPassword("389d8f71c0c4e88c63ffb4e68d7bf913"); // à éviter en dur
+        mailSender.setUsername("imulcei@gmail.com");
+        mailSender.setPassword(dotenv.get("EMAIL_PASSWORD")); // à éviter en dur
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
